@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   db:
-    image: postgres:13
+    image: postgres:latest
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     environment:
@@ -13,7 +13,7 @@ services:
       - "5432:5432"
 
   cache:
-    image: redis:6.2-alpine
+    image: redis:latest
     ports:
       - "6379:6379"
 
