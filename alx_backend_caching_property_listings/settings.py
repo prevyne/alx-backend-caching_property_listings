@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     #Third party apps
-    'django-redis',
+    'django_redis',
     #Local apps
     'properties',
 ]
@@ -82,7 +82,7 @@ DATABASES = {
         'NAME': 'property_db',
         'USER': 'property_user',
         'PASSWORD': 'property_pass',
-        'HOST': 'db',  # The service name from docker-compose.yml
+        'HOST': 'localhost',  # The service name from docker-compose.yml
         'PORT': '5432',
     }
 }
