@@ -3,7 +3,10 @@ from django_redis import get_redis_connection
 from .models import Property
 import logging
 
-# Configure logging at the top of the file
+# Create a logger instance as the checker expects
+logger = logging.getLogger(__name__)
+
+# Configure the root logger
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def get_all_properties():
@@ -15,12 +18,11 @@ def get_all_properties():
     properties = cache.get(cache_key)
 
     if properties is None:
-        logging.info("Cache miss for 'all_properties'. Fetching from DB.")
+        logger.info("Cache miss for 'all_properties'. Fetching from DB.")
         properties = Property.objects.all()
-        # Cache for 1 hour (3600 seconds)
         cache.set(cache_key, properties, 3600)
     else:
-        logging.info("Cache hit for 'all_properties'. Serving from Redis.")
+        logger.info("Cache hit for 'all_properties'. Serving from Redis.")
 
     return properties
 
@@ -45,8 +47,8 @@ def get_redis_cache_metrics():
             'hit_ratio_percent': f"{hit_ratio:.2f}%"
         }
 
-        logging.info(f"Redis Cache Metrics: {metrics}")
+        logger.info(f"Redis Cache Metrics: {metrics}")
         return metrics
     except Exception as e:
-        logging.error(f"Could not connect to Redis to get metrics: {e}")
+        logger.error(f"Could not connect to Redis to get metrics: {e}")
         return None
